@@ -25,5 +25,17 @@ class Role:
     def max_health(self) -> int:
         return self._template.base_health + (self._level - 1) * 10
 
+    @classmethod
+    def from_saved(cls, data: dict):
+        role = cls(data["tid"], data["uid"])
+        role._level = data["level"]
+        role.exp = data["exp"]
+        return role
 
-
+    def to_saved(self) -> dict:
+        return {
+            "uid": self._uid,
+            "tid": self._template.id,
+            "level": self._level,
+            "exp": self.exp
+        }

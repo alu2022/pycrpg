@@ -12,7 +12,7 @@ class RoleTemplMan:
             for data in root:
                 template = RoleTempl(**data)
                 cls._templates[template.id] = template
-                
+    
     @classmethod
     def save(cls, file: str):
         with open(file, "w", encoding="utf-8") as f:
