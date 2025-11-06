@@ -7,4 +7,5 @@ class RoleTempl:
     base_health: int
     base_attack: int
     base_defense: int
+    base_speed: int
     

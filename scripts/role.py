@@ -1,5 +1,6 @@
 from roletempl import RoleTempl
 from roletemplman import RoleTemplMan
+from rolestats import RoleStats
 import uuid
 
 class Role:
@@ -10,8 +11,8 @@ class Role:
 
         self._template = template
         self._uid = uid
-        self._level = 1
-        self.exp = 0
+        self._level: int = 1
+        self.exp: int = 0
     
     @property
     def uid(self) -> str:
@@ -20,6 +21,15 @@ class Role:
     @property
     def template(self) -> RoleTempl:
         return self._template
+    
+    @property
+    def stats(self) -> RoleStats:
+        return RoleStats(
+            health = self._template.base_health,
+            attack = self._template.base_attack,
+            defense = self._template.base_defense,
+            speed = self._template.base_speed,
+        )
     
     @property
     def max_health(self) -> int:
