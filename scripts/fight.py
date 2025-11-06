@@ -14,8 +14,13 @@ class FightContext:
 
     def add_role(self, role: FightRole):
         self.all_roles.append(role)
-    
 
+class FightResult:
+    def __init__(self):
+        self.init_roles: list[FightRole] = []
+        self.round: int = 0
+        self.winner: int = 0
+        self.actions: list[str] = []
 
 class Fight:
     def __init__(self, seed: int = int(uuid.uuid4())):
@@ -74,7 +79,7 @@ class Fight:
     def simulate(self) -> int:
         self._actions.clear()
 
-        context = FightContext(self.seed)
+        # context = FightContext(self.seed)
         
         # copy init roles
 
