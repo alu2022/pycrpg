@@ -45,13 +45,13 @@ class FightContext:
         
     def deal_damage(self, actor: FightRole, target: FightRole, skill: FightSkill, damage: int):
         self.dispatch_event(fightevents.BeforeTakeDamage(target, actor, skill, damage))
-        target.take_damage(damage)
+        real_damage = target.take_damage(damage)
         self.log_action("take_damage", {
             "actor": target.uid,
-            "value": damage,
+            "value": real_damage,
             "left": target.health
         })
-        self.dispatch_event(fightevents.AfterTakeDamage(target, actor, skill, damage))
+        self.dispatch_event(fightevents.AfterTakeDamage(target, actor, skill, real_damage))
         if not target.is_alive():
             self.log_action("died", {
                 "actor": target.uid

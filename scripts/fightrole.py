@@ -37,8 +37,11 @@ class FightRole:
             damage = round(damage * 1.5)
         return damage
 
-    def take_damage(self, value: int):
+    def take_damage(self, value: int) -> int:
         if value < 0:
             raise ValueError("Damage value must be non-negative.")
         # TODO cacl defense
-        self.health -= value
+        reduce = 200 / (200 + self.stats.defense)
+        damage = max(1, round(value * reduce))
+        self.health -= damage
+        return damage

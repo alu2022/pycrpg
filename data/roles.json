@@ -7,7 +7,6 @@
         "base_defense": 100,
         "base_speed": 100,
         "skills": [
-            "s001-2",
             "s001-1"
         ]
     },
@@ -19,8 +18,7 @@
         "base_defense": 90,
         "base_speed": 105,
         "skills": [
-            "s001-2",
-            "s001-1"
+            "s001-2"
         ]
     }
 ]
