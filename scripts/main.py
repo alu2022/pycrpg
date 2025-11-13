@@ -3,23 +3,7 @@ from skilltemplman import SkillTemplMan
 from role import Role
 from fight import Fight
 
-if __name__ == "__main__":
-    RoleTemplMan.load("data/roles.json")
-    SkillTemplMan.load("data/skills.json")
-
-    team1: list[Role] = []
-    team1.append(Role("r001"))
-    team1.append(Role("r001"))
-    team2: list[Role] = []
-    team2.append(Role("r002"))
-    team2.append(Role("r002"))
-
-    fight = Fight()
-    fight.add_team(team1)
-    fight.add_team(team2)
-
-    actions = fight.simulate()
-
+def print_fight(actions: list[dict]):
     for action in actions:
         match action["type"]:
             case "begin_fight":
@@ -48,3 +32,21 @@ if __name__ == "__main__":
             case "died":
                 actor = fight.get_role(action["actor"])
                 print(f"{actor.template.name} 死了！")
+
+if __name__ == "__main__":
+    RoleTemplMan.load("data/roles.json")
+    SkillTemplMan.load("data/skills.json")
+
+    team1: list[Role] = []
+    team1.append(Role("r001"))
+    team1.append(Role("r001"))
+    team2: list[Role] = []
+    team2.append(Role("r002"))
+    team2.append(Role("r002"))
+
+    fight = Fight()
+    fight.add_team(team1)
+    fight.add_team(team2)
+
+    actions = fight.simulate()
+    print_fight(actions)
