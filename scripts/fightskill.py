@@ -19,7 +19,6 @@ class FightSkill:
             self.cooltime -= 1
     
     def can_cast(self, actor: FightRole, context: FightContext) -> bool:
-        # TODO check cooltime
         return self.cooltime == 0
     
     def do_cast(self, actor: FightRole, context: FightContext):

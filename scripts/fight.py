@@ -55,20 +55,16 @@ class Fight:
             "actor": actor.uid,
         })
         context.dispatch_event(fightevents.BeginTurn(actor))
-
-        for skill in actor.skills:
-            skill.update_cooltime()
-
+        actor.on_begin_turn()
         if actor.can_act():
-            for skill in actor.skills:
-                if skill.can_cast(actor, context):
-                    context.log_action("cast_skill", {
-                        "actor": actor.uid,
-                        "skill": skill.skill.template.id
-                    })
-                    skill.cast(actor, context)
-                    break
-
+            skill = actor.select_cast_skill(context)
+            if skill is not None:
+                context.log_action("cast_skill", {
+                    "actor": actor.uid,
+                    "skill": skill.skill.template.id
+                })
+                skill.cast(actor, context)
+        actor.on_end_turn()
         context.dispatch_event(fightevents.EndTurn(actor))
         context.log_action("end_turn", {
             "actor": actor.uid,
