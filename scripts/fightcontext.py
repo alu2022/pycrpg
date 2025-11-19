@@ -3,6 +3,7 @@ from role import Role
 from fightrole import FightRole
 from fightskill import FightSkill
 from buff import Buff
+from actqueue import ActQueue
 import fightevents
 from random import Random
 
@@ -10,6 +11,7 @@ class FightContext:
     def __init__(self, seed: int, init_teams: list[list[Role]]):
         self.random = Random(seed)
         self.event_man = EventMan()
+        self.act_queue = ActQueue()
         #self.actor: FightRole | None = None
         #self.actor_queue: list[FightRole] = []
         self.round: int = 0
@@ -19,6 +21,7 @@ class FightContext:
             for j, role in enumerate(team):
                 self.all_roles.append(FightRole(role, i + 1, j + 1, self))
         self.all_roles.sort(key=lambda r: r.stats.get("speed"), reverse=True)
+        self.act_queue.init(self.all_roles)
         for role in self.all_roles:
             role.prepare_fight()
 

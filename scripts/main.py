@@ -3,6 +3,7 @@ from skilltemplman import SkillTemplMan
 from bufftemplman import BuffTemplMan
 from role import Role
 from fight import Fight
+from fightwithactqueue import FightWithActQueue
 
 def print_fight(fight: Fight, actions: list[dict]):
     for action in actions:
@@ -59,7 +60,8 @@ if __name__ == "__main__":
     team2: list[Role] = []
     team2.append(Role("r002"))
 
-    fight = Fight()
+    #fight = Fight()
+    fight = FightWithActQueue()
     fight.add_team(team1)
     fight.add_team(team2)
 
