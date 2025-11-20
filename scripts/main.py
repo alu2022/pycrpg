@@ -5,6 +5,12 @@ from role import Role
 from fight import Fight
 from fightwithactqueue import FightWithActQueue
 
+def get_actor_name(info: dict):
+    actor: Role = info["role"]
+    team: int = info["team"]
+    field: int = info["field"]
+    return f"{actor.template.name}(队伍{team},位置{field})"
+
 def print_fight(fight: Fight, actions: list[dict]):
     for action in actions:
         match action["type"]:
@@ -17,36 +23,40 @@ def print_fight(fight: Fight, actions: list[dict]):
             case "end_round":
                 print(f"第 {action["round"]} 回目结束。")
             case "begin_turn":
-                actor = fight.get_role(action["actor"])
-                print(f"现在是 {actor.template.name} 的回合：")
+                info = fight.get_role_info(action["actor"])
+                print(f"现在是 {get_actor_name(info)} 的回合：")
             case "end_turn":
-                actor = fight.get_role(action["actor"])
-                print(f"{actor.template.name} 的回合结束了。")
+                info = fight.get_role_info(action["actor"])
+                print(f"{get_actor_name(info)} 的回合结束了。")
             case "cast_skill":
-                actor = fight.get_role(action["actor"])
+                info = fight.get_role_info(action["actor"])
+                actor = info["role"]
                 skill = actor.get_skill(action["skill"])
-                print(f"{actor.template.name} 使用了技能 {skill.template.name} ！")
+                print(f"{get_actor_name(info)} 使用了技能 {skill.template.name} ！")
             case "take_damage":
-                actor = fight.get_role(action["actor"])
+                info = fight.get_role_info(action["actor"])
+                actor = info["role"]
                 value = action["value"]
                 left = action["left"]
-                print(f"{actor.template.name} 失去了 {value} 生命！当前生命：{left}")
+                print(f"{get_actor_name(info)} 失去了 {value} 生命！当前生命：{left}")
             case "died":
-                actor = fight.get_role(action["actor"])
-                print(f"{actor.template.name} 死了！")
+                info = fight.get_role_info(action["actor"])
+                print(f"{get_actor_name(info)} 死了！")
             case "add_buff":
-                actor = fight.get_role(action["actor"])
-                caster = fight.get_role(action["caster"])
+                actor_info = fight.get_role_info(action["actor"])
+                actor = actor_info["role"]
+                caster_info = fight.get_role_info(action["caster"])
+                caster = caster_info["role"]
                 buff_tmpl = BuffTemplMan.get(action["buff"])
                 assert(buff_tmpl is not None)
                 stack = action["stack"]
                 duration = action["duration"]
-                print(f"{actor.template.name} 获得了BUFF {buff_tmpl.name}({duration}回合)，施加者：{caster.template.name}")
+                print(f"{get_actor_name(actor_info)} 获得了BUFF {buff_tmpl.name}({duration}回合)，施加者：{get_actor_name(caster_info)}")
             case "remove_buff":
-                actor = fight.get_role(action["actor"])
+                info = fight.get_role_info(action["actor"])
                 buff_tmpl = BuffTemplMan.get(action["buff"])
                 assert(buff_tmpl is not None)
-                print(f"{actor.template.name} 失去了BUFF {buff_tmpl.name}")
+                print(f"{get_actor_name(info)} 失去了BUFF {buff_tmpl.name}")
 
 if __name__ == "__main__":
     RoleTemplMan.load("data/roles.json")

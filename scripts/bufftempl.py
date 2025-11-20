@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 import json
 
 @dataclass
@@ -8,6 +8,7 @@ class BuffTempl:
     desc: str
     stacks: int
     entry: str
+    args: dict = field(default_factory=dict)
 
 class BuffTemplMan():
     _templates: dict[str, BuffTempl] = {}

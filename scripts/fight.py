@@ -18,6 +18,17 @@ class Fight:
                 if role.uid == uid:
                     return role
         raise IndexError(f"Role '{uid}' not found")
+    
+    def get_role_info(self, uid:str) -> dict:
+        for i, team in enumerate(self.init_teams):
+            for j, role in enumerate(team):
+                if role.uid == uid:
+                    return {
+                        "role": role,
+                        "team": i + 1,
+                        "field": j + 1
+                    }
+        raise IndexError(f"Role '{uid}' not found")
 
     def simulate(self) -> list[dict]:
         context = FightContext(self.seed, self.init_teams)
