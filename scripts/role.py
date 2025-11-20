@@ -1,5 +1,4 @@
-# from roletempl import RoleTempl
-from roletemplman import RoleTemplMan
+from roletempl import RoleTemplMan
 from stats import Stats
 from skill import Skill
 import uuid

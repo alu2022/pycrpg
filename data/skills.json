@@ -5,7 +5,10 @@
         "desc": "射出寒冰之箭攻击敌方目标，造成 100% 攻击力伤害。",
         "cost": 0,
         "cooldown": 0,
-        "entry": "data.skills.skills.Fireball"
+        "entry": "data.skills.skills.BaseAttack",
+        "args": {
+            "k": 1.2
+        }
     },
     {
         "id": "s002-1",
@@ -13,7 +16,7 @@
         "desc": "扔出一团火球攻击敌方随机目标，造成 100% 攻击力伤害。",
         "cost": 0,
         "cooldown": 0,
-        "entry": "data.skills.skills.Fireball"
+        "entry": "data.skills.skills.BaseAttack"
     },
     {
         "id": "s002-2",

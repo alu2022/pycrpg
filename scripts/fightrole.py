@@ -86,8 +86,8 @@ class FightRole:
         for skill in self.skills:
             skill.prepare_fight(self, self.context)
 
-    def calc_damage(self, k: float) -> int:
-        damage = round(self.stats.get("attack") * k)
+    def calc_damage(self, k: float = 1.0, base_stat: str = "attack") -> int:
+        damage = round(self.stats.get(base_stat) * k)
         if self.context.random.random() < (self.stats.get("critical_changce") / 100):
             damage = round(damage * (1.0 + self.stats.get("critical_damage") / 100))
         return damage

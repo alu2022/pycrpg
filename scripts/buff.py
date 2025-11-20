@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from fightrole import FightRole
     from fightcontext import FightContext
-from bufftemplman import BuffTempl, BuffTemplMan
+from bufftempl import BuffTempl, BuffTemplMan
 import importlib.util
 
 class Buff:
@@ -49,5 +49,5 @@ class BuffMan:
         buff_class = getattr(module, class_name)
         if not issubclass(buff_class, Buff):
             raise TypeError(f"Class '{class_name}' is not a subclass of Buff")
-        return buff_class(template, caster, stack, duration)
+        return buff_class(template, caster, stack, duration, **template.args)
     

@@ -12,8 +12,6 @@ class FightContext:
         self.random = Random(seed)
         self.event_man = EventMan()
         self.act_queue = ActQueue()
-        #self.actor: FightRole | None = None
-        #self.actor_queue: list[FightRole] = []
         self.round: int = 0
         self.actions: list[dict] = []
         self.all_roles: list[FightRole] = []
@@ -61,3 +59,5 @@ class FightContext:
                 "actor": target.uid
             })
             self.dispatch_event(fightevents.Died(target, actor))
+            if not target.is_alive():
+                self.act_queue.remove_role(target)

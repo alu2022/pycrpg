@@ -42,5 +42,5 @@ class FightSkillMan:
         skill_class = getattr(module, class_name)
         if not issubclass(skill_class, FightSkill):
             raise TypeError(f"Class '{class_name}' is not a subclass of FightSkill")
-        return skill_class(skill)
+        return skill_class(skill, **skill.template.args)
     
