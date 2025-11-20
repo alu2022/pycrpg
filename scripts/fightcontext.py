@@ -8,7 +8,7 @@ import fightevents
 from random import Random
 
 class FightContext:
-    def __init__(self, seed: int, init_teams: list[list[Role]]):
+    def __init__(self, seed: str, init_teams: list[list[Role]]):
         self.random = Random(seed)
         self.event_man = EventMan()
         self.act_queue = ActQueue()
