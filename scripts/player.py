@@ -1,5 +1,5 @@
-from role import Role
-from rolecollections import RoleCollections
+from .role import Role
+from .rolecollections import RoleCollections
 import uuid
 
 class Player:

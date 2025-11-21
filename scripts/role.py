@@ -1,6 +1,6 @@
-from roletempl import RoleTemplMan
-from stats import Stats
-from skill import Skill
+from .roletempl import RoleTemplMan
+from .stats import Stats
+from .skill import Skill
 import uuid
 
 class Role:

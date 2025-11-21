@@ -1,12 +1,6 @@
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    from scripts.buff import Buff, BuffTempl
-    from scripts.fightcontext import FightContext
-    from scripts.fightrole import FightRole
-else:
-    from buff import Buff, BuffTempl
-    from fightcontext import FightContext
-    from fightrole import FightRole
+from scripts.buff import Buff, BuffTempl
+from scripts.fightcontext import FightContext
+from scripts.fightrole import FightRole
 
 class DamageBeinTurn(Buff):
     def __init__(self, template: BuffTempl, caster: FightRole, stack: int = 1, duration: int = 1, /,

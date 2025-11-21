@@ -1,6 +1,6 @@
-from fightrole import FightRole
-from fightskill import FightSkill
-from buff import Buff
+from .fightrole import FightRole
+from .fightskill import FightSkill
+from .buff import Buff
 
 class BeginFight: pass
 

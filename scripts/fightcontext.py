@@ -1,10 +1,10 @@
-from eventman import EventMan
-from role import Role
-from fightrole import FightRole
-from fightskill import FightSkill
-from buff import Buff
-from actqueue import ActQueue
-import fightevents
+from .eventman import EventMan
+from .role import Role
+from .fightrole import FightRole
+from .fightskill import FightSkill
+from .buff import Buff
+from .actqueue import ActQueue
+from . import fightevents
 from random import Random
 
 class FightContext:

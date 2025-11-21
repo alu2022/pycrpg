@@ -1,6 +1,6 @@
-from fight import Fight
-from fightcontext import FightContext
-import fightevents
+from .fight import Fight
+from .fightcontext import FightContext
+from . import fightevents
 
 class FightWithActQueue(Fight):
     def simulate(self) -> list[dict]:

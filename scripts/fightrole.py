@@ -1,10 +1,10 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
-from role import Role
-from fightskill import FightSkill, FightSkillMan
-from buff import Buff
+from .role import Role
+from .fightskill import FightSkill, FightSkillMan
+from .buff import Buff
 if TYPE_CHECKING:
-    from fightcontext import FightContext
+    from .fightcontext import FightContext
 
 class FightRole:
     def __init__(self, role: Role, team: int, field: int, context: FightContext):

@@ -1,9 +1,9 @@
-from roletempl import RoleTemplMan
-from skilltempl import SkillTemplMan
-from bufftempl import BuffTemplMan
-from role import Role
-from fight import Fight
-from fightwithactqueue import FightWithActQueue
+from scripts.roletempl import RoleTemplMan
+from scripts.skilltempl import SkillTemplMan
+from scripts.bufftempl import BuffTemplMan
+from scripts.role import Role
+from scripts.fight import Fight
+from scripts.fightwithactqueue import FightWithActQueue
 
 def get_actor_name(info: dict):
     actor: Role = info["role"]

@@ -1,4 +1,4 @@
-from fightrole import FightRole
+from .fightrole import FightRole
 
 class _Act:
     def __init__(self, role: FightRole, pos: int = 0):

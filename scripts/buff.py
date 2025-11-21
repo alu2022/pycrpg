@@ -1,9 +1,9 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from fightrole import FightRole
-    from fightcontext import FightContext
-from bufftempl import BuffTempl, BuffTemplMan
+    from .fightrole import FightRole
+    from .fightcontext import FightContext
+from .bufftempl import BuffTempl, BuffTemplMan
 import importlib.util
 
 class Buff:

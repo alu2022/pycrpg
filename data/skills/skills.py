@@ -1,16 +1,7 @@
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    from scripts.fightskill import Skill, FightSkill
-    from scripts.buff import BuffMan
-    from scripts.fightrole import FightRole
-    from scripts.fightcontext import FightContext
-    #import scripts.fightevents as fightevents
-else:
-    from fightskill import Skill, FightSkill
-    from buff import BuffMan
-    from fightrole import FightRole
-    from fightcontext import FightContext
-    #import fightevents as fightevents
+from scripts.fightskill import Skill, FightSkill
+from scripts.buff import BuffMan
+from scripts.fightrole import FightRole
+from scripts.fightcontext import FightContext
 
 class BaseAttack(FightSkill):
     def __init__(self, skill: Skill, /, k: float = 1.0, target_num: int = 1, base_stat: str = "attack"):

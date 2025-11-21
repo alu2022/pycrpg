@@ -1,4 +1,4 @@
-from skilltempl import SkillTemplMan
+from .skilltempl import SkillTemplMan
 
 class Skill:
     def __init__(self, tid: str):

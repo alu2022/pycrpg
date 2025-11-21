@@ -1,7 +1,7 @@
-from role import Role
-from fightrole import FightRole
-from fightcontext import FightContext
-import fightevents
+from .role import Role
+from .fightrole import FightRole
+from .fightcontext import FightContext
+from . import fightevents
 import uuid
 
 class Fight:
