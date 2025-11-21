@@ -41,30 +41,40 @@ class FightRole:
         return state in self.states
     
     def add_buff(self, buff: Buff):
-        self.context.log_action("add_buff", {
+        
+        hasbuff = False
+        for b in self.buffs:
+            if b.template.id == buff.template.id:
+                hasbuff = True
+                b.on_readd(buff,self,self.context)
+                self.context.log_action("readd_buff", {
+                "actor": self.uid,
+                "caster": b.caster.uid,
+                "buff": b.template.id,
+                "stack": b.stack,
+                "duration": b.duration,
+                "time": b.time
+                })
+                break
+        if not hasbuff:
+            self.context.log_action("add_buff", {
             "actor": self.uid,
             "caster": buff.caster.uid,
             "buff": buff.template.id,
             "stack": buff.stack,
             "duration": buff.duration
-        })
-        stacked = False
-        for b in self.buffs:
-            if b.try_stack(buff):
-                stacked = True
-                break
-        if not stacked:
+            })
+            buff.on_add(self, self.context)
             self.buffs.append(buff)
-        buff.on_add(self, self.context)
 
     def remove_buff(self, buff: Buff):
-        buff.on_remove(self, self.context)
-        self.context.log_action("remove_buff", {
-            "actor": self.uid,
-            "buff": buff.template.id
-        })
         for i, b in enumerate(self.buffs):
-            if b == buff:
+            if b.template.id == buff.template.id:
+                self.context.log_action("remove_buff", {
+                    "actor": self.uid,
+                    "buff": buff.template.id
+                })
+                b.on_remove(self, self.context)
                 self.buffs.pop(i)
                 break
             
