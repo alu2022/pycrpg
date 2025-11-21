@@ -5,8 +5,8 @@ import fightevents
 import uuid
 
 class Fight:
-    def __init__(self, seed: int = int(uuid.uuid4())):
-        self.seed = seed
+    def __init__(self, seed: str | None = None):
+        self.seed = seed if seed else str(uuid.uuid4())
         self.init_teams: list[list[Role]] = []
 
     def add_team(self, team: list[Role]):
