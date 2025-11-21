@@ -21,14 +21,36 @@ class DamageBeinTurn(Buff):
 
 class Slowdown(Buff):
     def on_add(self, actor: FightRole, context: FightContext):
-        speed = 0.5 * actor.base_stats.get("speed")
-        actor.stats.add("speed",speed)
+        self.speed = -0.5 * actor.base_stats.get("speed")
+        actor.stats.add("speed",self.speed)
     def on_remove(self, actor: FightRole, context: FightContext):
-        speed = actor.base_stats.get("speed")
-        actor.stats.add("speed",speed)
+        actor.stats.add("speed",-self.speed)
 
 class Frozen(Buff):
+    def on_readd(self, buff:Buff, actor: FightRole, context: FightContext):
+        pass
+
     def on_add(self, actor: FightRole, context: FightContext):
         actor.add_state("frozen")
     def on_remove(self, actor: FightRole, context: FightContext):
         actor.remove_state("frozen")
+
+class Statbuff(Buff):
+    def __init__(self, template: BuffTempl, caster: FightRole, stack: int = 1, duration: int = 1, /,
+                 k: float = 1.0, base_stat: str = None):
+        super().__init__(template, caster, stack, duration)
+        self.k = k
+        self.target_stat = base_stat
+    
+    def on_readd(self, buff:Buff, actor: FightRole, context: FightContext):
+        self.stack = min(self.template.stacks,self.stack+buff.stack)
+        self.time+=buff.duration
+        self.on_remove(actor,context)
+        self.on_add(actor,context)
+
+    def on_add(self, actor: FightRole, context: FightContext):
+        self.stat = self.stack*self.k * actor.base_stats.get(self.target_stat)
+        actor.stats.add(self.target_stat,self.stat)
+
+    def on_remove(self, actor: FightRole, context: FightContext):
+        actor.stats.add(self.target_stat,-self.stat)

@@ -24,6 +24,13 @@ class Buff:
     def on_add(self, actor: FightRole, context: FightContext):
         pass
 
+    def on_readd(self, buff:Buff, actor: FightRole, context: FightContext):
+        self.stack = min(self.stack + buff.stack, self.template.stacks)
+        self.duration = max(self.duration, buff.duration)
+        self.time += buff.duration
+        self.on_remove(actor,context)
+        self.on_add(actor,context)
+
     def on_remove(self, actor: FightRole, context: FightContext):
         pass
 

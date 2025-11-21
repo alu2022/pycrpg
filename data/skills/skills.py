@@ -59,9 +59,9 @@ class Snowball(FightSkill):
             context.deal_damage(actor, target, self, damage)
             rand = context.random.random()
             if rand < 0.05:
-                buff = BuffMan.create("b0002", actor)
+                buff = BuffMan.create("b0003", actor)
                 target.add_buff(buff)
             else:
                 if rand < 0.5:
-                    buff = BuffMan.create("b0003", actor)
+                    buff = BuffMan.create("b0002", actor,)
                     target.add_buff(buff)
