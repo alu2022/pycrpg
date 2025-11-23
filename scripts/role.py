@@ -1,6 +1,7 @@
 from .roletempl import RoleTemplMan
 from .stats import Stats
 from .skill import Skill
+from .gameconfig import GameConfig
 import uuid
 
 class Role:
@@ -15,6 +16,18 @@ class Role:
         self.skills: list[Skill] = []
         for skill_id in template.skills:
             self.skills.append(Skill(skill_id))
+
+    def gain_exp(self, value: int):
+        if value <= 0:
+            raise ValueError("Exp gain must be positive.")
+        exp = self.exp + value
+        while self.level < GameConfig.ROLE_MAX_LEVEL:
+            need_exp = GameConfig.get_role_levelup_exp(self.level)
+            if exp < need_exp:
+                break
+            exp -= need_exp
+            self.level += 1
+        self.exp = exp
     
     @property
     def max_health(self) -> int:

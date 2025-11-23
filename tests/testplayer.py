@@ -7,6 +7,7 @@ from scripts.skilltempl import SkillTemplMan
 from scripts.bufftempl import BuffTemplMan
 from scripts.role import Role
 from scripts.player import Player
+from scripts.gameconfig import GameConfig
 import random
 import json
 
@@ -33,5 +34,20 @@ if __name__ == "__main__":
         player.add_role(role)
         print(f"获得角色：{role.template.name}")
 
-    p = Player.from_saved(player.to_saved())
-    print(p)
+    print(f"level 1 need exp: {GameConfig.get_role_levelup_exp(1)}")
+    for i in range(9, 100, 10):
+        print(f"level {i} need exp: {GameConfig.get_role_levelup_exp(i)}")
+
+    sum = 0
+    for i in range(1, 100):
+        sum += GameConfig.get_role_levelup_exp(i)
+    print(f"sum exp to Lv.100: {sum}")
+
+    role = player.role_collections.roles[0]
+    exp = random.randrange(1, 100000)
+    role.gain_exp(exp)
+    print(f"角色 {role.template.name} 获得经验：{exp}，现在等级是 Lv.{role.level}({role.exp}/{GameConfig.get_role_levelup_exp(role.level)})")
+    exp = random.randrange(1, 100000)
+    role.gain_exp(exp)
+    print(f"角色 {role.template.name} 获得经验：{exp}，现在等级是 Lv.{role.level}({role.exp}/{GameConfig.get_role_levelup_exp(role.level)})")
+
