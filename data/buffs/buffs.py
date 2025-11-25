@@ -27,10 +27,10 @@ class StateBuff(Buff):
 
 class Statbuff(Buff):
     def __init__(self, template: BuffTempl, caster: FightRole, stack: int, duration: int, /,
-                 k: float = 1.0, base_stat: str = None):
+                  stat: str, k: float = 1.0):
         super().__init__(template, caster, stack, duration)
+        self.stat = stat
         self.k = k
-        self.target_stat = base_stat
     
     def on_readd(self, buff:Buff, actor: FightRole, context: FightContext):
         self.stack = min(self.template.stacks,self.stack+buff.stack)
@@ -39,9 +39,8 @@ class Statbuff(Buff):
         self.on_add(actor,context)
 
     def on_add(self, actor: FightRole, context: FightContext):
-        self.stat = self.stack*self.k * actor.base_stats.get(self.target_stat)
-        actor.stats.add(self.target_stat,self.stat)
+        self.value = round(self.stack * self.k * actor.base_stats.get(self.stat))
+        actor.stats.add(self.stat, self.value)
 
     def on_remove(self, actor: FightRole, context: FightContext):
-        actor.stats.add(self.target_stat,-self.stat)
-        
+        actor.stats.add(self.stat, -self.value)

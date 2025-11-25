@@ -16,8 +16,8 @@
         "stacks": 4,
         "entry": "data.buffs.buffs.Statbuff",
         "args": {
-            "k": -0.2,
-            "base_stat": "speed"
+            "stat": "speed",
+            "k": -0.2
         }
     },
     {
