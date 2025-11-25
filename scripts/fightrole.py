@@ -1,8 +1,9 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Callable
 from .role import Role
 from .fightskill import FightSkill, FightSkillMan
 from .buff import Buff
+from .eventman import EventMan
 if TYPE_CHECKING:
     from .fightcontext import FightContext
 
@@ -13,6 +14,7 @@ class FightRole:
         self.team = team
         self.field = field
         self.context = context
+        self.event_man = EventMan()
         self.base_stats = role.get_stats()
         self.stats = self.base_stats.copy()
         self.health = self.stats.get("health")
@@ -95,6 +97,15 @@ class FightRole:
     def prepare_fight(self):
         for skill in self.skills:
             skill.prepare_fight(self, self.context)
+
+    def register_event(self, event_type: type, callback: Callable[..., bool]) -> int:
+        return self.event_man.register(event_type, callback)
+    
+    def unregister_event(self, id: int):
+        self.event_man.unregister(id)
+
+    def dispatch_event(self, event) -> bool:
+        return self.event_man.dispatch(event)
 
     def calc_damage(self, k: float = 1.0, base_stat: str = "attack") -> int:
         damage = round(self.stats.get(base_stat) * k)

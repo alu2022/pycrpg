@@ -1,9 +1,11 @@
+from typing import Callable
+
 class EventMan:
     def __init__(self):
         self._listeners: dict[type, dict] = {}
         self._id: int = 0
 
-    def register(self, event_type: type, callback) -> int:
+    def register(self, event_type: type, callback: Callable[..., bool]) -> int:
         if event_type not in self._listeners:
             self._listeners[event_type] = {}
         self._id += 1
@@ -14,8 +16,10 @@ class EventMan:
         for mapping in self._listeners.values():
             mapping.pop(id, None)
 
-    def dispatch(self, event):
+    def dispatch(self, event) -> bool:
         event_type = type(event)
         if event_type in self._listeners:
             for callback in self._listeners[event_type].values():
-                callback(event)
+                if callback(event):
+                    return True
+        return False

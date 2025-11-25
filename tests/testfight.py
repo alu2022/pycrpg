@@ -40,9 +40,18 @@ def print_fight(fight: Fight, actions: list[dict]):
             case "take_damage":
                 info = fight.get_role_info(action["actor"])
                 actor = info["role"]
+                caster = fight.get_role(action["caster"])
                 value = action["value"]
                 left = action["left"]
-                print(f"{get_actor_name(info)} 失去了 {value} 生命！当前生命：{left}")
+                source_type = action["source_type"]
+                source_id = action["source_id"]
+                if source_type == "skill":
+                    skill = caster.get_skill(source_id)
+                    print(f"{get_actor_name(info)} 失去了 {value} 生命！由于技能 {skill.template.name}。当前生命：{left}")
+                else:
+                    buff_tmpl = BuffTemplMan.get(source_id)
+                    assert(buff_tmpl is not None)
+                    print(f"{get_actor_name(info)} 失去了 {value} 生命！由于BUFF {buff_tmpl.name}。当前生命：{left}")
             case "died":
                 info = fight.get_role_info(action["actor"])
                 print(f"{get_actor_name(info)} 死了！")

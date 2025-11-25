@@ -10,7 +10,7 @@ from random import Random
 class FightContext:
     def __init__(self, seed: str, init_teams: list[list[Role]]):
         self.random = Random(seed)
-        self.event_man = EventMan()
+        # self.event_man = EventMan()
         self.act_queue = ActQueue()
         self.round: int = 0
         self.actions: list[dict] = []
@@ -23,11 +23,17 @@ class FightContext:
         for role in self.all_roles:
             role.prepare_fight()
 
-    def dispatch_event(self, event):
+    def dispatch_event(self, event, /, actor: FightRole | None = None):
         self.log_action("event", {
             "name": type(event).__name__
         })
-        self.event_man.dispatch(event)
+        if actor:
+            if actor.dispatch_event(event):
+                return
+        for r in self.all_roles:
+            if r != actor:
+                if r.dispatch_event(event):
+                    return
 
     def log_action(self, type: str, data: dict = {}):
         action = {"type": type, **data}
@@ -46,18 +52,22 @@ class FightContext:
             return 0
         
     def deal_damage(self, actor: FightRole, target: FightRole, source: FightSkill | Buff, damage: int):
-        self.dispatch_event(fightevents.BeforeTakeDamage(target, actor, source, damage))
-        real_damage = target.take_damage(damage)
+        event = fightevents.BeforeTakeDamage(target, actor, source, damage)
+        self.dispatch_event(event, actor=target)
+        real_damage = target.take_damage(event.damage)
         self.log_action("take_damage", {
             "actor": target.uid,
+            "caster": actor.uid,
             "value": real_damage,
-            "left": target.health
+            "left": target.health,
+            "source_type": "skill" if isinstance(source, FightSkill) else "buff",
+            "source_id": source.skill.template.id if isinstance(source, FightSkill) else source.template.id
         })
-        self.dispatch_event(fightevents.AfterTakeDamage(target, actor, source, real_damage))
+        self.dispatch_event(fightevents.AfterTakeDamage(target, actor, source, real_damage), actor=target)
         if not target.is_alive():
             self.log_action("died", {
                 "actor": target.uid
             })
-            self.dispatch_event(fightevents.Died(target, actor))
+            self.dispatch_event(fightevents.Died(target, actor), actor=target)
             if not target.is_alive():
                 self.act_queue.remove_role(target)
