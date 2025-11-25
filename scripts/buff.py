@@ -16,6 +16,16 @@ class Buff:
     def try_stack(self, buff: Buff, actor: FightRole, context: FightContext) -> bool:
         if self.template.id != buff.template.id:
             return False
+        self.on_stack(buff, actor, context)
+        return True
+
+    def on_add(self, actor: FightRole, context: FightContext):
+        pass
+
+    def on_remove(self, actor: FightRole, context: FightContext):
+        pass
+
+    def on_stack(self, buff: Buff, actor: FightRole, context: FightContext):
         new_stack = self.stack + buff.stack
         if self.template.stacks != 0 and new_stack > self.template.stacks:
             new_stack = self.template.stacks
@@ -24,13 +34,6 @@ class Buff:
             self.stack = new_stack
             self.on_add(actor, context)
         self.duration = max(self.duration, buff.duration)
-        return True
-
-    def on_add(self, actor: FightRole, context: FightContext):
-        pass
-
-    def on_remove(self, actor: FightRole, context: FightContext):
-        pass
 
     def on_begin_turn(self, actor: FightRole, context: FightContext):
         pass
