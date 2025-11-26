@@ -3,9 +3,14 @@ from scripts.skilltempl import SkillTemplMan
 from scripts.bufftempl import BuffTemplMan
 from scripts.role import Role
 from scripts.saveman import Player, SaveMan
+from scripts.ui.welcome import WelcomeView
 import random
+import arcade
 
 if __name__ == "__main__":
+    window = arcade.Window(800, 600, "PYCRPG", center_window=True)
+    arcade.run(WelcomeView())
+
     RoleTemplMan.load("data/roles.json")
     SkillTemplMan.load("data/skills.json")
     BuffTemplMan.load("data/buffs.json")
