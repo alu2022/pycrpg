@@ -2,6 +2,7 @@ from scripts.fightskill import Skill, FightSkill
 from scripts.buff import BuffMan
 from scripts.fightrole import FightRole
 from scripts.fightcontext import FightContext
+from typing import override
 
 class BaseAttack(FightSkill):
     def __init__(self, skill: Skill, /, k: float = 1.0, target_num: int = 1, base_stat: str = "attack"):
@@ -10,12 +11,14 @@ class BaseAttack(FightSkill):
         self.target_num = target_num
         self.base_stat = base_stat
     
+    @override
     def can_cast(self, actor: FightRole, context: FightContext) -> bool:
         if not super().can_cast(actor, context):
             return False
         self.enemys = [r for r in context.all_roles if r.is_alive() and r.team != actor.team]
         return len(self.enemys) > 0
     
+    @override
     def do_cast(self, actor: FightRole, context: FightContext):
         targets = context.random.sample(self.enemys, k=min(len(self.enemys), self.target_num))
         for target in targets:
@@ -23,12 +26,14 @@ class BaseAttack(FightSkill):
             context.deal_damage(actor, target, self, damage)
 
 class BigFireball(FightSkill):
+    @override
     def can_cast(self, actor: FightRole, context: FightContext) -> bool:
         if not super().can_cast(actor, context):
             return False
         self.enemys = [r for r in context.all_roles if r.is_alive() and r.team != actor.team]
         return len(self.enemys) > 0
 
+    @override
     def do_cast(self, actor: FightRole, context: FightContext):
         for target in self.enemys:
             damage = actor.calc_damage(1.2 + 0.15 * (self.skill.level - 1))
@@ -38,12 +43,14 @@ class BigFireball(FightSkill):
                 target.add_buff(buff)
                 
 class Snowball(FightSkill):
+    @override
     def can_cast(self, actor: FightRole, context: FightContext) -> bool:
         if not super().can_cast(actor, context):
             return False
         self.enemys = [r for r in context.all_roles if r.is_alive() and r.team != actor.team]
         return len(self.enemys) > 0
 
+    @override
     def do_cast(self, actor: FightRole, context: FightContext):
         for target in self.enemys:
             damage = actor.calc_damage(0.7 + 0.15 * (self.skill.level - 1))
@@ -56,3 +63,4 @@ class Snowball(FightSkill):
                 if rand < 0.5:
                     buff = BuffMan.create("b0002", actor,)
                     target.add_buff(buff)
+                    

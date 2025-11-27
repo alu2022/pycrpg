@@ -1,8 +1,10 @@
 from .fight import Fight
 from .fightcontext import FightContext
 from . import fightevents
+from typing import override
 
 class FightWithActQueue(Fight):
+    @override
     def simulate(self) -> list[dict]:
         context = FightContext(self.seed, self.init_teams)
         

@@ -1,5 +1,6 @@
 from .uiview import UIView
 from scripts.playersaveman import Player, PlayerView, PlayerSaveMan
+from typing import override
 import arcade
 import arcade.gui as gui
 
@@ -8,24 +9,17 @@ class SaveView(UIView):
         print(f"click player: {player.name}")
 
     def on_command_remove_player(self, player: PlayerView):
-        print(f"click delete player: {player.name}")
         self.save_man.remove_player(player.uid)
         self.create_ui()
 
     def on_command_add(self, event):
-        print("click add")
         self.save_man.add_player(Player("新的存档"))
         self.create_ui()
 
     def on_command_back(self, event):
-        print("click back")
         from .welcomeview import WelcomeView
         self.window.show_view(WelcomeView())
-
-    def on_init(self):
-        self.save_man = PlayerSaveMan()
-        self.create_ui()
-
+    
     def create_ui(self):
         self.manager.clear()
         anchor = self.manager.add(gui.UIAnchorLayout())
@@ -68,6 +62,12 @@ class SaveView(UIView):
         remove_button.on_click = lambda event: self.on_command_remove_player(player)
         return root
 
+    @override
+    def on_init(self):
+        self.save_man = PlayerSaveMan()
+        self.create_ui()
+
+    @override
     def on_draw(self):
         self.clear()
         super().on_draw()

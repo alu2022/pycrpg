@@ -1,10 +1,10 @@
 from .uiview import UIView
+from typing import override
 import arcade
 import arcade.gui as gui
 
 class WelcomeView(UIView):
     def on_command_start(self, event):
-        print("click start")
         from .saveview import SaveView
         self.window.show_view(SaveView())
 
@@ -12,9 +12,9 @@ class WelcomeView(UIView):
         print("click option")
 
     def on_command_quit(self, event):
-        print("click quit")
         arcade.exit()
 
+    @override
     def on_init(self):
         anchor = self.manager.add(gui.UIAnchorLayout())
         vbox = anchor.add(
@@ -39,6 +39,7 @@ class WelcomeView(UIView):
         ))
         quit_button.on_click = self.on_command_quit
     
+    @override
     def on_draw(self):
         self.clear()
         super().on_draw()

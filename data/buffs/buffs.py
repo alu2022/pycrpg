@@ -1,6 +1,7 @@
 from scripts.buff import Buff, BuffTempl
 from scripts.fightcontext import FightContext
 from scripts.fightrole import FightRole
+from typing import override
 
 class DamageBeinTurn(Buff):
     def __init__(self, template: BuffTempl, caster: FightRole, stack: int, duration: int, /,
@@ -9,6 +10,7 @@ class DamageBeinTurn(Buff):
         self.k = k
         self.base_stat = base_stat
 
+    @override
     def on_begin_turn(self, actor: FightRole, context: FightContext):
         damage = self.caster.calc_damage(self.k, self.base_stat)
         context.deal_damage(self.caster, actor, self, damage)
@@ -19,9 +21,11 @@ class StateBuff(Buff):
         super().__init__(template, caster, stack, duration)
         self.state = state
     
+    @override
     def on_add(self, actor: FightRole, context: FightContext):
         actor.add_state(self.state)
     
+    @override
     def on_remove(self, actor: FightRole, context: FightContext):
         actor.remove_state(self.state)
 
@@ -31,16 +35,12 @@ class Statbuff(Buff):
         super().__init__(template, caster, stack, duration)
         self.stat = stat
         self.k = k
-    
-    def on_readd(self, buff:Buff, actor: FightRole, context: FightContext):
-        self.stack = min(self.template.stacks,self.stack+buff.stack)
-        self.time+=buff.duration
-        self.on_remove(actor,context)
-        self.on_add(actor,context)
 
+    @override
     def on_add(self, actor: FightRole, context: FightContext):
         self.value = round(self.stack * self.k * actor.base_stats.get(self.stat))
         actor.stats.add(self.stat, self.value)
 
+    @override
     def on_remove(self, actor: FightRole, context: FightContext):
         actor.stats.add(self.stat, -self.value)
